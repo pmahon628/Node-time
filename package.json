@@ -16,5 +16,9 @@
   "bugs": {
     "url": "https://github.com/pmahon628/Node-time/issues"
   },
-  "homepage": "https://github.com/pmahon628/Node-time#readme"
+  "homepage": "https://github.com/pmahon628/Node-time#readme",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "node-spotify-api": "^1.1.1"
+  }
 }
