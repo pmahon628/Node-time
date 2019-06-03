@@ -2,9 +2,15 @@ var fs = require ("fs");
 
 require("dotenv").config();
 
+//global variables
 var keys = require("./keys.js");
 var command = process.argv[2];
-var userInput = process.argv[3];
+var input = process.argv[3];
+var request = require('request')
+var bandsintown = require('bandsintown')("codingbootcamp");
+var moment = require('moment');
+var Spotify = require('node-spotify-api');
+
 
 switch(command){
     
@@ -13,16 +19,20 @@ case "spotify-this-song":
     break;
 
 case "movie-this":
-    showMovieInfo();
+    showMovieInfo(input);
+    break;
+
+case "concert-this":
+    showMovieInfo(input);
     break;
 
 case "do-what-it-says":
-    doWhatItSays();
+    doWhatItSays(input);
     break;
 };
-
+//spotify module
 function showSongInfo(){
-    var spotify = new Spotify(llaves.spotifyKeys);
+    var spotify = new Spotify(keys.spotifyKeys);
 
     spotify.search({ type: 'track', query: userInput}, function (err, data) {
         if (err){
@@ -33,6 +43,8 @@ function showSongInfo(){
     });
 };
 
+
+//OMDB module
 function omdbData(movie){
     var omdbURL = 'http://www.omdbapi.com/?t=' + movie + '&plot=short&tomatoes=true';
   
@@ -62,10 +74,13 @@ function omdbData(movie){
     });
   
   }
-    function bandsInTown(band){
-        var url = 'https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp';
 
-        request (bandsInTown, function (error, resposne, body){
+
+  //bands in town module.
+    function concert(band){
+        var queryURL = 'https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp';
+
+        request (bandsintown, function (error, response, body){
             if(!error && response.statusCpde == 100){
                 var body = JSON.parse(body);
 
@@ -75,3 +90,20 @@ function omdbData(movie){
             // };
             // };
     };  
+   
+    
+    //Do what it says module
+    function read() {
+        fs.readFile('random.txt', 'utf8', function(error, data) {
+            if (error) {
+                console.log(error);
+            } else {
+                var dataArr = data.split(',');
+                if (dataArr[0] === 'spotify') {
+                    spotifyThis(dataArr[1]);
+                }
+                if (dataArr[0] === 'omdb') {
+                    omdbThis(dataArr[1]);
+                }
+            }
+        });
