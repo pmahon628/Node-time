@@ -23,7 +23,7 @@ case "movie-this":
     break;
 
 case "concert-this":
-    showMovieInfo(input);
+    showBandInfo(input);
     break;
 
 case "do-what-it-says":
@@ -78,7 +78,7 @@ function omdbData(movie){
 
   //bands in town module.
     function concert(band){
-        var queryURL = 'https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp';
+        var queryURL = 'https://rest.bandsintown.com/artists/' + artist + '/events?app_id=codingbootcamp';
 
         request (bandsintown, function (error, response, body){
             if(!error && response.statusCpde == 100){
@@ -86,11 +86,10 @@ function omdbData(movie){
 
                 console.log("Name of Venue " + body.venue);
                 console.log("Location of Venue " + body.location);
-                console.log(//date of event, need to refrest on moment to get mm/dd/yyyy)
-            // };
-            // };
-    };  
-   
+                console.log(//date of event, need to refresh on moment to get mm/dd/yyyy)
+            
+                };  
+     }
     
     //Do what it says module
     function read() {
@@ -105,5 +104,8 @@ function omdbData(movie){
                 if (dataArr[0] === 'omdb') {
                     omdbThis(dataArr[1]);
                 }
+                if (dataArr[0]=== 'bands'){
+                     bandThis(dataArr[1]);   
+                    }
             }
         });
